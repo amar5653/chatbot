@@ -1,14 +1,15 @@
-require('dotenv').config();
 
 const sendChatBtn = document.querySelector(".chat-input span");
 const chatInput = document.querySelector(".chat-input textarea");
 const chatbox = document.querySelector(".chatbox");
 
 let userMessage;
-const API_KEY = process.env.API_KEY;
+const API_KEY = "api";
 
-const generateResponse = () => {
+
+const generateResponse = (incomingChatLi) => {
     const API_URL = "https://api.openai.com/v1/chat/completions";
+    const messageElement = incomingChatLi.querySelector("p");
 
     const requestOptions = {
         method: "POST",
@@ -28,8 +29,9 @@ const generateResponse = () => {
     //Send POST request to API, get response
     fetch(API_URL, requestOptions).then(res=> res.json()).then(data=> {
         console.log(data);
+        messageElement.textContent = data.choices[0].message.content;
     }).catch((error)=> {
-        console.log(error);
+        messageElement.textContent ="Oops! Something went wrong please try again.";
     })
 }
 
@@ -50,13 +52,15 @@ const handleChat = () => {
   if(!userMessage) return;
 
   //Append the user's message to the chatbox
-  chatbox.appendChild(createChatLi(userMessage, "outgoing"));
+  const incomingChatLi = createChatLi(userMessage, "outgoing");
+  chatbox.appendChild(incomingChatLi);
 
  setTimeout(() => {
     //Display thinking message while waiting for the response
     chatbox.appendChild(createChatLi("Thinking...","incoming"));
+    generateResponse(incomingChatLi);
  }, 600);
-     generateResponse();
+     
 }
 
 sendChatBtn.addEventListener("click", handleChat);

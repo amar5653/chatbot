@@ -25,6 +25,10 @@ body {
     outline:none;
     cursor:pointer;
     font-size: 1.35rem;
+    transition: all 0.2s ease;
+}
+.show-chatbot .chatbot-toggler {
+    transform: rotate(90deg);
 }
 .chatbot-toggler i {
     position: absolute;
@@ -46,8 +50,10 @@ body {
     opacity: 0;
     pointer-events: none;
    border-radius: 15px;
+   transform-origin: bottom-right;
     box-shadow:  0 0 128px 0 rgba(0,0,0,0.1),
     0 32px 64px -48px rgba(0,0,0,0.5);
+    transition: all 0.1s ease;
 }
 .show-chatbot .chatbot {
     transform: scale(1);
@@ -122,6 +128,7 @@ max-width: 75%;
     border: none;
     background-color: #fff;
     outline:none;
+    max-height: 180px;
     resize: none;
     height:55px;
     padding: 16px  15px 16px 0;
@@ -140,6 +147,10 @@ max-width: 75%;
 }
 .chat-input #message:valid ~ #send-btn{
     visibility: visible;
+}
+.chatbot .chat p.error {
+  color: #721c24;
+   background: #f8d7da;
 }
 @keyframes shake {
     0%{
